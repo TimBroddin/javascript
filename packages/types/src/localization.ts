@@ -31,6 +31,7 @@ type _LocalizationResource = {
   formFieldLabel__lastName: LocalizationValue;
   formFieldLabel__backupCode: LocalizationValue;
   formFieldLabel__organizationName: LocalizationValue;
+  formFieldLabel__organizationSlug: LocalizationValue;
   formFieldLabel__role: LocalizationValue;
   formFieldInputPlaceholder__emailAddress: LocalizationValue;
   formFieldInputPlaceholder__emailAddresses: LocalizationValue;
@@ -45,6 +46,7 @@ type _LocalizationResource = {
   formFieldInputPlaceholder__lastName: LocalizationValue;
   formFieldInputPlaceholder__backupCode: LocalizationValue;
   formFieldInputPlaceholder__organizationName: LocalizationValue;
+  formFieldInputPlaceholder__organizationSlug: LocalizationValue;
   formFieldAction__forgotPassword: LocalizationValue;
   formFieldHintText__optional: LocalizationValue;
   formButtonPrimary: LocalizationValue;
