@@ -33,7 +33,15 @@ type FormControlProps = Omit<PropsOfComponent<typeof Input>, 'label' | 'placehol
 
 // TODO: Convert this into a Component?
 const getInputElementForType = (type: FormControlProps['type']) => {
-  return type === 'password' ? PasswordInput : type === 'tel' ? PhoneInput : Input;
+  const CustomInputs = {
+    password: PasswordInput,
+    tel: PhoneInput,
+  };
+  if (!type) {
+    return Input;
+  }
+  const customInput = type as keyof typeof CustomInputs;
+  return CustomInputs[customInput] || Input;
 };
 
 export const FormControl = forwardRef<HTMLInputElement, FormControlProps>((props, ref) => {
@@ -45,6 +53,7 @@ export const FormControl = forwardRef<HTMLInputElement, FormControlProps>((props
   const isDisabled = props.isDisabled || card.isLoading;
 
   const InputElement = getInputElementForType(props.type);
+  const isCheckbox = props.type === 'checkbox';
 
   return (
     <FormControlPrim
@@ -56,61 +65,66 @@ export const FormControl = forwardRef<HTMLInputElement, FormControlProps>((props
       isRequired={isRequired}
       sx={sx}
     >
-      <Flex
-        justify='between'
-        align='center'
-        elementDescriptor={descriptors.formFieldLabelRow}
-        elementId={descriptors.formFieldLabelRow.setId(id)}
-        sx={theme => ({ marginBottom: theme.space.$1 })}
-      >
-        <FormLabel
-          localizationKey={typeof label === 'object' ? label : undefined}
-          elementDescriptor={descriptors.formFieldLabel}
-          elementId={descriptors.formFieldLabel.setId(id)}
+      <Flex direction={isCheckbox ? 'row' : 'columnReverse'}>
+        <InputElement
+          elementDescriptor={descriptors.formFieldInput}
+          elementId={descriptors.formFieldInput.setId(id)}
           hasError={hasError}
           isDisabled={isDisabled}
           isRequired={isRequired}
-          sx={{ marginRight: 'auto' }}
+          {...rest}
+          ref={ref}
+          placeholder={t(placeholder)}
+        />
+        <Flex
+          justify='between'
+          align='center'
+          elementDescriptor={descriptors.formFieldLabelRow}
+          elementId={descriptors.formFieldLabelRow.setId(id)}
+          sx={theme => ({
+            marginBottom: isCheckbox ? 0 : theme.space.$1,
+            marginLeft: !isCheckbox ? 0 : theme.space.$1,
+          })}
         >
-          {typeof label === 'string' ? label : undefined}
-        </FormLabel>
-        {isOptional && !actionLabel && (
-          <Text
-            localizationKey={localizationKeys('formFieldHintText__optional')}
-            elementDescriptor={descriptors.formFieldHintText}
-            elementId={descriptors.formFieldHintText.setId(id)}
-            as='span'
-            colorScheme='neutral'
-            variant='smallRegular'
-            isDisabled={isDisabled}
-          />
-        )}
-        {actionLabel && (
-          <Link
-            localizationKey={actionLabel}
-            elementDescriptor={descriptors.formFieldAction}
+          <FormLabel
+            localizationKey={typeof label === 'object' ? label : undefined}
+            elementDescriptor={descriptors.formFieldLabel}
             elementId={descriptors.formFieldLabel.setId(id)}
+            hasError={hasError}
             isDisabled={isDisabled}
-            colorScheme='primary'
-            onClick={e => {
-              e.preventDefault();
-              onActionClicked?.(e);
-            }}
+            isRequired={isRequired}
+            sx={{ marginRight: 'auto' }}
           >
-            {typeof actionLabel === 'string' ? actionLabel : undefined}
-          </Link>
-        )}
+            {typeof label === 'string' ? label : undefined}
+          </FormLabel>
+          {isOptional && !actionLabel && (
+            <Text
+              localizationKey={localizationKeys('formFieldHintText__optional')}
+              elementDescriptor={descriptors.formFieldHintText}
+              elementId={descriptors.formFieldHintText.setId(id)}
+              as='span'
+              colorScheme='neutral'
+              variant='smallRegular'
+              isDisabled={isDisabled}
+            />
+          )}
+          {actionLabel && (
+            <Link
+              localizationKey={actionLabel}
+              elementDescriptor={descriptors.formFieldAction}
+              elementId={descriptors.formFieldLabel.setId(id)}
+              isDisabled={isDisabled}
+              colorScheme='primary'
+              onClick={e => {
+                e.preventDefault();
+                onActionClicked?.(e);
+              }}
+            >
+              {typeof actionLabel === 'string' ? actionLabel : undefined}
+            </Link>
+          )}
+        </Flex>
       </Flex>
-      <InputElement
-        elementDescriptor={descriptors.formFieldInput}
-        elementId={descriptors.formFieldInput.setId(id)}
-        hasError={hasError}
-        isDisabled={isDisabled}
-        isRequired={isRequired}
-        {...rest}
-        ref={ref}
-        placeholder={t(placeholder)}
-      />
       <FormErrorText
         elementDescriptor={descriptors.formFieldErrorText}
         elementId={descriptors.formFieldErrorText.setId(id)}
