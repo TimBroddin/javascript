@@ -270,6 +270,7 @@ export const frFR: LocalizationResource = {
         title: 'Mot de passe',
         primaryButton__changePassword: 'Changer le mot de passe',
         primaryButton__setPassword: 'Définir le mot de passe',
+        primaryButton__removePassword: '',
       },
       mfaSection: {
         title: 'Vérification en deux étapes',
@@ -398,7 +399,9 @@ export const frFR: LocalizationResource = {
     passwordPage: {
       title: 'Mettre à jour le mot de passe',
       changePasswordTitle: 'Changer le mot de passe',
+      removePasswordTitle: '',
       successMessage: 'Votre mot de passe a été mis à jour.',
+      removePasswordSuccessMessage: '',
       changePasswordSuccessMessage: 'Votre mot de passe a été mis à jour.',
       sessionsSignedOutSuccessMessage: 'Tous les autres appareils ont été déconnectés.',
     },
