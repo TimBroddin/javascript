@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { createSlug, isValidSlug } from '../../../ui/utils';
 import { useWizard, Wizard } from '../../common';
 import { useCoreOrganization } from '../../contexts';
-import { localizationKeys, useLocalizations } from '../../customizables';
+import { localizationKeys } from '../../customizables';
 import { ContentPage, Form, FormButtons, SuccessPage, useCardState, withCardStateProvider } from '../../elements';
 import { handleError, useFormControl } from '../../utils';
 import { UserProfileBreadcrumbs } from '../UserProfile/UserProfileNavbar';
@@ -14,7 +13,6 @@ export const ProfileSettingsPage = withCardStateProvider(() => {
   const title = localizationKeys('organizationProfile.profilePage.title');
   const subtitle = localizationKeys('organizationProfile.profilePage.subtitle');
   const card = useCardState();
-  const { t } = useLocalizations();
   const [avatarChanged, setAvatarChanged] = React.useState(false);
   const { organization } = useCoreOrganization();
 
